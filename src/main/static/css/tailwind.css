@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.title-text {
+  @apply text-2xl font-mono text-blue-600 tracking-widest;
+}
