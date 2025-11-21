@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Organizations{% endblock %}
+
+{% block head_extra %}
+<script src="https://cdn.tailwindcss.com"></script>
+{% endblock %}
+
+{% block content %}
+<div class="text-center py-10">
+    <h1 class="text-3xl font-bold mb-6">Student Organizations</h1>
+</div>
+
+<div class="max-w-2xl mx-auto">
+    <ul class="list-disc pl-4">
+        {% for org in roots %}
+            {% include "organization_node.html" with org=org %}
+        {% empty %}
+            <li class="text-gray-500">No organizations found.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

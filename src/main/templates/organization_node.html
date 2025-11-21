@@ -1,0 +1,10 @@
+<li class="mb-1">
+    {{ org.name }}
+    {% if org.children.all %}
+        <ul class="list-disc pl-6 mt-1">
+            {% for child in org.children.all %}
+                {% include "organization_node.html" with org=child %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+</li>
