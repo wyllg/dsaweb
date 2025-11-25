@@ -1,16 +1,19 @@
 {% extends 'base.html' %}
-{% block title %}Login{% endblock %}
+{% block title %}Profile{% endblock %}
 {% block content %}
 
-<h2>{{ student.first_name }} {{ student.last_name }}</h2>
+<h2 class="text-xl">{{ student.first_name }} {{ student.last_name }}</h2>
 <p>SR-Code: {{ student.user.sr_code }}</p>
 <p>Contact: {{ student.contact_number }}</p>
 <p>Followed Organizations:</p>
-<ul>
-  {% for org in student.followed_organizations.all %}
-    <li>{{ org.organization_name }}</li>
+<h3>Organizations I Follow</h3>
+<ul class="text-blue-600">
+  {% for org in followed_orgs %}
+    <li>
+      <a class="text-blue-600" href="{% url 'organization_profile' org.id %}">{{ org.organization_name }}</a>
+    </li>
   {% empty %}
-    <li>No followed organizations</li>
+    <li>You are not following any organizations yet.</li>
   {% endfor %}
 </ul>
 

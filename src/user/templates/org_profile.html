@@ -20,13 +20,18 @@
 <p>About: {{ org.about }}</p>
 <p>Parent Organization: {{ org.parent_organization }}</p>
 <p>Officers:</p>
-<ul>
-  {% for officer in org.officers.all %}
-    <li>{{ officer.user.sr_code }} - {{ officer.position }}</li>
-  {% empty %}
-    <li>No officers yet</li>
-  {% endfor %}
-</ul>
+
+<form action="{% url 'follow_organization' org.id %}" method="POST">
+    {% csrf_token %}
+    {% if request.user in org.followers.all %}
+        <button type="submit" class="btn btn-danger">Unfollow</button>
+    {% else %}
+        <button type="submit" class="btn btn-primary">Follow</button>
+    {% endif %}
+</form>
+
+
+<p>Followers: {{ org.followers.count }}</p>
 
 {% if request.user == org.user %}
   TEST ORG

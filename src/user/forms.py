@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import User, StudentProfile, Organization
+from .models import User, StudentProfile
 
 class StudentSignupForm(UserCreationForm):
     sr_code = forms.CharField(max_length=8, label="SR-Code")

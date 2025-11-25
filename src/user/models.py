@@ -10,14 +10,15 @@ sr_code_validator = RegexValidator(
 ORG_LEVELS = [
     ("UNIVERSITY", "University"),       # Level 1
     ("COLLEGE", "College"),             # Level 2
-    ("Department", "Department"),       # Level 3
+    ("DEPARTMENT", "Department"),       # Level 3
     ("ORGANIZATION", "Organization"),   # Level 4
 ]
 
 class User(AbstractUser):
     is_organization = models.BooleanField(default=False)
+    is_officer = models.BooleanField(default=False)   # you may remove this too if unused
 
-    # Students use SR-Code as username, orgs use normal username
+    # Students use SR-Code as username
     sr_code = models.CharField(
         max_length=8,
         unique=True,
@@ -30,27 +31,29 @@ class User(AbstractUser):
         if self.is_organization:
             return self.username or "Unnamed Organization"
         return self.sr_code or f"User ID {self.id}"
-    
+
+
 class StudentProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="student")
 
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
 
-    followed_organizations = models.ManyToManyField(
-        "Organization",
-        related_name="followers",
-        blank=True
-    )
-
     def __str__(self):
         return f"{self.user.sr_code} - {self.first_name} {self.last_name}"
-    
+
+
 class Organization(models.Model):
     user = models.OneToOneField(
         User, 
         on_delete=models.CASCADE, 
         related_name="organization"
+    )
+
+    followers = models.ManyToManyField(
+        User,
+        related_name="followed_organizations",
+        blank=True
     )
 
     organization_name = models.CharField(max_length=255)
@@ -63,7 +66,6 @@ class Organization(models.Model):
         related_name="sub_organizations"
     )
 
-    # Dropdown with the 4 levels
     organization_level = models.CharField(
         max_length=20,
         choices=ORG_LEVELS,
@@ -75,16 +77,9 @@ class Organization(models.Model):
     profile_picture = models.ImageField(upload_to="org_profile_pics/", blank=True, null=True)
     header_picture = models.ImageField(upload_to="org_header_pics/", blank=True, null=True)
 
-    officers = models.ManyToManyField(
-        StudentProfile,
-        through="OrganizationOfficer",
-        related_name="officer_roles"
-    )
-
     def __str__(self):
         return self.organization_name
 
-    # Helper: return level number (1–4)
     @property
     def level_number(self):
         levels = {
@@ -95,26 +90,13 @@ class Organization(models.Model):
         }
         return levels.get(self.organization_level, 4)
 
-    # Helper: check if organization has children
     @property
     def has_children(self):
         return self.sub_organizations.exists()
 
-    # Helper: recursive tree
     def get_tree(self):
         return {
             "name": self.organization_name,
             "level": self.organization_level,
             "children": [child.get_tree() for child in self.sub_organizations.all()]
         }
-
-class OrganizationOfficer(models.Model):
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
-    position = models.CharField(max_length=100)
-
-    class Meta:
-        unique_together = ('organization', 'student')
-
-    def __str__(self):
-        return f"{self.student} - {self.position}"
