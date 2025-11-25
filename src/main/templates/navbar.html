@@ -9,7 +9,11 @@
 
         {% if user.is_authenticated %}
 
-        <li><a href="{% url 'organizations' %}" class="text-slate-300 hover:text-blue-600">Organizations</a></li>
+        {% if user.is_organization %}
+                <li><a class="text-slate-300 hover:text-blue-600" href="{% url 'profile' user.username %}">My Organization</a></li>
+        {% else %}
+                <li><a class="text-slate-300 hover:text-blue-600" href="{% url 'profile' user.sr_code %}">My Profile</a></li>
+        {% endif %}
 
         <li>
             <form action="{% url 'logout' %}" method="post">

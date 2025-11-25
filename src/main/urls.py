@@ -1,9 +1,10 @@
-from django.urls import path
+from django.urls import include, path
 from . import views
 
 
 urlpatterns = [
     path('', views.home, name='home'),
     path('landing/', views.landing, name='landing'),
-    path("organizations/", views.organizations, name="organizations"),
+    path("user/", include("user.urls")),
+
 ]

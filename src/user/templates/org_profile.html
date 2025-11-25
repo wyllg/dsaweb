@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+
+<!-- Header image -->
+{% if org.header_picture %}
+    <div>
+        <img src="{{ org.header_picture.url }}" alt="Header Image" style="width:80%; height:550px; object-fit:cover;">
+    </div>
+{% endif %}
+
+<!-- Profile picture -->
+{% if org.profile_picture %}
+    <img src="{{ org.profile_picture.url }}" alt="Profile Picture" style="width:150px; height:150px; border-radius:50%;">
+{% endif %}
+
+<h2>{{ org.organization_name }}</h2>
+<p>Username: {{ org.user.username }}</p>
+<p>Level: {{ org.organization_level }}</p>
+<p>About: {{ org.about }}</p>
+<p>Parent Organization: {{ org.parent_organization }}</p>
+<p>Officers:</p>
+<ul>
+  {% for officer in org.officers.all %}
+    <li>{{ officer.user.sr_code }} - {{ officer.position }}</li>
+  {% empty %}
+    <li>No officers yet</li>
+  {% endfor %}
+</ul>
+
+{% if request.user == org.user %}
+  TEST ORG
+{% endif %}
+
+
+{% endblock %}

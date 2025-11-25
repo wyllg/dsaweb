@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'main',
-    'users',
+    'user',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +122,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'main' / 'static']
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -131,4 +134,4 @@ LOGIN_REDIRECT_URL = 'landing'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'home' 
 
-AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = "user.User" 

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+
+<h2>{{ student.first_name }} {{ student.last_name }}</h2>
+<p>SR-Code: {{ student.user.sr_code }}</p>
+<p>Contact: {{ student.contact_number }}</p>
+<p>Followed Organizations:</p>
+<ul>
+  {% for org in student.followed_organizations.all %}
+    <li>{{ org.organization_name }}</li>
+  {% empty %}
+    <li>No followed organizations</li>
+  {% endfor %}
+</ul>
+
+{% if request.user == student.user %}
+  <h1>USER</h1>
+{% endif %}
+
+{% endblock %}
