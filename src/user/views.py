@@ -23,11 +23,18 @@ def user_login(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
+
+            # Case 1: User has an Organization profile
+            if hasattr(user, "organization"):
+                return redirect("profile_view", identifier=user.username)
+
+            # Case 2: User is a student
             return redirect("landing")
+
     else:
         form = UserLoginForm()
-    return render(request, "login.html", {"form": form})
 
+    return render(request, "login.html", {"form": form})
 def user_logout(request):
     logout(request)
     return redirect("home")

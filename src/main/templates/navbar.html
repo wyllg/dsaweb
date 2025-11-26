@@ -5,17 +5,22 @@
         </a>
         <ul class="flex space-x-6 font-hubot">
 
-        {% if user.is_authenticated %}
-            <li><a class="text-slate-300 hover:text-blue-600" href="{% url 'landing' %}">Home</a></li>
+        <!-- If Logged In -->
+        {% if user.is_authenticated %} 
+            
             <li><a class="text-slate-300 hover:text-blue-600" href="{% url 'org_tree' %}">Organizations</a></li>
 
+        <!-- If Organization -->
         {% if user.is_organization %}
             <li><a class="text-slate-300 hover:text-blue-600" href="{% url 'profile_view' user.username %}">My Organization</a></li>
 
+        <!-- If Admin -->
         {% elif user.is_superuser %}
             <li><a class="text-slate-300 hover:text-blue-600" href="http://127.0.0.1:8000/admin/">Admin</a></li>
 
+        <!-- If User -->
         {% else %}
+            <li><a class="text-slate-300 hover:text-blue-600" href="{% url 'landing' %}">Home</a></li>
             <li><a class="text-slate-300 hover:text-blue-600" href="{% url 'profile_view' user.sr_code %}">My Profile</a></li>
             
         {% endif %}
