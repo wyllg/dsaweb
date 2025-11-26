@@ -10,7 +10,7 @@
 <ul class="text-blue-600">
   {% for org in followed_orgs %}
     <li>
-      <a class="text-blue-600" href="{% url 'organization_profile' org.id %}">{{ org.organization_name }}</a>
+      <a class="text-blue-600" href="{% url 'profile_view' org.user.username %}">{{ org.organization_name }}</a>
     </li>
   {% empty %}
     <li>You are not following any organizations yet.</li>

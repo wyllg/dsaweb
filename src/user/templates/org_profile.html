@@ -18,10 +18,9 @@
 <p>Username: {{ org.user.username }}</p>
 <p>Level: {{ org.organization_level }}</p>
 <p>About: {{ org.about }}</p>
-<p>Parent Organization: {{ org.parent_organization }}</p>
-<p>Officers:</p>
 
-<form action="{% url 'follow_organization' org.id %}" method="POST">
+{% if request.user != org.user %}
+<form action="{% url 'follow_organization' org.user.username %}" method="POST">
     {% csrf_token %}
     {% if request.user in org.followers.all %}
         <button type="submit" class="btn btn-danger">Unfollow</button>
@@ -29,6 +28,9 @@
         <button type="submit" class="btn btn-primary">Follow</button>
     {% endif %}
 </form>
+{% endif %}
+
+
 
 
 <p>Followers: {{ org.followers.count }}</p>
