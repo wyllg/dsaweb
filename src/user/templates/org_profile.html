@@ -16,8 +16,8 @@
 
 <h2>{{ org.organization_name }}</h2>
 <p>Username: {{ org.user.username }}</p>
-<p>Level: {{ org.organization_level }}</p>
 <p>About: {{ org.about }}</p>
+<p>Followers: {{ org.followers.count }}</p>
 
 {% if request.user != org.user %}
 <form action="{% url 'follow_organization' org.user.username %}" method="POST">
@@ -31,13 +31,60 @@
 {% endif %}
 
 
-
-
-<p>Followers: {{ org.followers.count }}</p>
-
 {% if request.user == org.user %}
-  TEST ORG
+<h1>-------</h1>
+<a href="{% url 'create_event' %}" class="btn btn-primary">Create Event</a>
 {% endif %}
 
+<h1>-------</h1>
+
+<h2>Ongoing Events</h2>
+{% if ongoing_events %}
+<ul>
+    {% for event in ongoing_events %}
+    <li class="text-blue-600">
+        <a href="{% url 'event_detail' username=org.user.username event_id=event.id %}">
+            {{ event.event_name }} — {{ event.start_datetime }} to {{ event.end_datetime }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No ongoing events.</p>
+{% endif %}
+
+<h1>-------</h1>
+
+<h2>Future Events</h2>
+{% if future_events %}
+<ul>
+    {% for event in future_events %}
+    <li class="text-blue-600">
+        <a href="{% url 'event_detail' username=org.user.username event_id=event.id %}">
+            {{ event.event_name }} — {{ event.start_datetime }} to {{ event.end_datetime }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No upcoming events.</p>
+{% endif %}
+
+<h1>-------</h1>
+
+<h2>Finished Events</h2>
+{% if finished_events %}
+<ul>
+    {% for event in finished_events %}
+    <li class="text-blue-600">
+        <a href="{% url 'event_detail' username=org.user.username event_id=event.id %}">
+            {{ event.event_name }} — {{ event.start_datetime|date:"M d, Y H:i" }} to {{ event.end_datetime|date:"M d, Y H:i" }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No past events.</p>
+{% endif %}
 
 {% endblock %}

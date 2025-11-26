@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Delete Event{% endblock %}
+{% block content %}
+
+<p>Delete "{{ event.event_name }}"?</p>
+<form method="POST">{% csrf_token %}<button type="submit">Yes</button></form>
+<a href="{% url 'event_detail' username=event.organization.user.username event_id=event.id %}">Cancel</a>
+
+
+{% endblock %}

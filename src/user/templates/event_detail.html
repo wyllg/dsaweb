@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Event Detail{% endblock %}
+{% block content %}
+
+{% if request.user == org.user %}
+    <a href="{% url 'edit_event' username=org.user.username event_id=event.id %}">Edit</a>
+    <a href="{% url 'delete_event' username=org.user.username event_id=event.id %}">Delete</a>
+{% endif %}
+
+<h1>------------</h1>
+
+<h1>{{ event.event_name }}</h1>
+<p>{{ event.start_datetime }} → {{ event.end_datetime }}</p>
+<p>{{ event.location }}</p>
+<p>{{ event.description }}</p>
+{% if event.header_image %}<img src="{{ event.header_image.url }}">{% endif %}
+
+
+
+{% endblock %}

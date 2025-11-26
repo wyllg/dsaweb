@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User, StudentProfile, Organization
+from .models import User, StudentProfile, Organization, Event
 
 class UserAdmin(BaseUserAdmin):
     list_display = ("username", "sr_code", "is_organization", "is_staff")
@@ -13,7 +13,6 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.register(User, UserAdmin)
 admin.site.register(StudentProfile)
-
 
 class OrganizationAdmin(admin.ModelAdmin):
     list_display = ("organization_name", "organization_level", "user")
@@ -37,3 +36,10 @@ class OrganizationAdmin(admin.ModelAdmin):
         return super().formfield_for_manytomany(db_field, request, **kwargs)
 
 admin.site.register(Organization, OrganizationAdmin)
+
+class EventAdmin(admin.ModelAdmin):
+    list_display = ("event_name", "organization", "start_datetime", "end_datetime")
+    list_filter = ("organization",)
+    search_fields = ("event_name", "organization__organization_name")
+
+admin.site.register(Event, EventAdmin)

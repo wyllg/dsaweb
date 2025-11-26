@@ -1,11 +1,63 @@
-{% extends 'base.html' %}
-{% block title %}Home{% endblock %}
+{% extends "base.html" %}
+{% block title %}Landing{% endblock %}
 {% block content %}
 
-<div class="text-center py-20">
-    <h1 class="title-text">landing</h1>
-</div>
+<h2>Events From Organizations You Follow</h2>
 
+<form method="GET">
 
+    <!-- Status Filter -->
+    <h4>Status</h4>
+    <label>
+        <input type="radio" name="status" value="all" 
+            {% if status_filter == "all" %}checked{% endif %}>
+        All
+    </label><br>
+
+    <label>
+        <input type="radio" name="status" value="future"
+            {% if status_filter == "future" %}checked{% endif %}>
+        Future
+    </label><br>
+
+    <label>
+        <input type="radio" name="status" value="ongoing"
+            {% if status_filter == "ongoing" %}checked{% endif %}>
+        Ongoing
+    </label><br>
+
+    <label>
+        <input type="radio" name="status" value="finished"
+            {% if status_filter == "finished" %}checked{% endif %}>
+        Finished
+    </label><br><br>
+
+    <!-- Sort Filter -->
+    <label>Sort by Date:</label>
+    <select name="sort">
+        <option value="asc" {% if sort_filter == "asc" %}selected{% endif %}>Ascending</option>
+        <option value="desc" {% if sort_filter == "desc" %}selected{% endif %}>Descending</option>
+    </select>
+
+    <br><br>
+    <button class="border border-blue-500 py-2 px-4 rounded"type="submit">Apply Filters</button>
+</form>
+
+<br>
+<hr>
+
+<h3>Results</h3>
+<ul>
+{% for event in events %}
+    <li class="text-blue-600">
+        <a href="{% url 'event_detail' username=event.organization.user.username event_id=event.id %}">
+            {{ event.event_name }}
+        </a>
+        — {{ event.start_datetime|date:"M d, Y H:i" }}
+    </li>
+{% empty %}
+    <p>No events found.</p>
+{% endfor %}
+</ul>
 
 {% endblock %}

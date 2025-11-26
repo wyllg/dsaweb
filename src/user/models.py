@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.validators import RegexValidator
+from django.utils import timezone
 
 sr_code_validator = RegexValidator(
     regex=r'^\d{2}-\d{5}$',
@@ -16,9 +17,7 @@ ORG_LEVELS = [
 
 class User(AbstractUser):
     is_organization = models.BooleanField(default=False)
-    is_officer = models.BooleanField(default=False)   # you may remove this too if unused
 
-    # Students use SR-Code as username
     sr_code = models.CharField(
         max_length=8,
         unique=True,
@@ -100,3 +99,15 @@ class Organization(models.Model):
             "level": self.organization_level,
             "children": [child.get_tree() for child in self.sub_organizations.all()]
         }
+
+class Event(models.Model):
+    organization = models.ForeignKey("Organization", on_delete=models.CASCADE, related_name="events")
+    event_name = models.CharField(max_length=255)
+    start_datetime = models.DateTimeField(default=timezone.now)
+    end_datetime = models.DateTimeField(default=timezone.now)
+    location = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    header_image = models.ImageField(upload_to="event_headers/", blank=True, null=True)
+
+    def __str__(self):
+        return self.event_name
