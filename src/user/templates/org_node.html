@@ -6,7 +6,7 @@
         <div class="w-3 h-3 rounded-full bg-blue-600 mt-1"></div>
 
         <div>
-            <a href="{% url 'organization_profile' org.id %}"
+            <a href="{% url 'profile_view' org.user.username %}"
                class="text-blue-600 font-semibold">
                 {{ org.organization_name }}
             </a>
