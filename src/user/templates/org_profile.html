@@ -2,89 +2,188 @@
 {% block title %}Profile{% endblock %}
 {% block content %}
 
-<!-- Header image -->
-{% if org.header_picture %}
-    <div>
-        <img src="{{ org.header_picture.url }}" alt="Header Image" style="width:80%; height:550px; object-fit:cover;">
-    </div>
-{% endif %}
-
-<!-- Profile picture -->
-{% if org.profile_picture %}
-    <img src="{{ org.profile_picture.url }}" alt="Profile Picture" style="width:150px; height:150px; border-radius:50%;">
-{% endif %}
-
-<h2>{{ org.organization_name }}</h2>
-<p>Username: {{ org.user.username }}</p>
-<p>About: {{ org.about }}</p>
-<p>Followers: {{ org.followers.count }}</p>
-
-{% if request.user != org.user %}
-<form action="{% url 'follow_organization' org.user.username %}" method="POST">
-    {% csrf_token %}
-    {% if request.user in org.followers.all %}
-        <button type="submit" class="btn btn-danger">Unfollow</button>
-    {% else %}
-        <button type="submit" class="btn btn-primary">Follow</button>
+<div class="org-chart-container">
+    {% if org.header_picture %}
+        <div style="position: relative; width:100%; height:auto; overflow:hidden">
+            <img src="{{ org.header_picture.url }}" 
+                alt="Header Image" 
+                style="width:100%; height:300px; object-fit:cover; display:block; border: 5px solid #000;">
+        </div>
     {% endif %}
-</form>
-{% endif %}
 
 
-{% if request.user == org.user %}
-<h1>-------</h1>
-<a href="{% url 'create_event' %}" class="btn btn-primary">Create Event</a>
-{% endif %}
+    <div style="position: relative; margin-left: 10%; margin-top: 120px; height: 300px;">
+        {% if org.profile_picture %}
+            <img src="{{ org.profile_picture.url }}" 
+                alt="Profile Picture"
+                style="
+                    width: 300px;
+                    height: 300px;
+                    border-radius: 70%;
+                    border: 5px solid #000;
+                    position: absolute;
+                    top: -275px;
+                    left: -80px;">
+        {% endif %}
 
-<h1>-------</h1>
+        <div style="margin-left: 320px; height: 300px; display: flex; flex-direction: column; position: relative; top: -30px;">
+            <h2 class ="heading1-text" style="text-shadow: 2px 3px 0 #000; color: #f9f5f5ff; font-size: 2rem; font-weight: bold; margin: -70px;">
+                {{ org.organization_name }}
+            </h2>
+            <p class = "sub-text" style="text-shadow: 2px 3px 0 #000; color: #f9f5f5ff; font-size: 1.5rem; margin: 80px; margin-left: -70px">
+                <span>{{ org.followers.count }} Followers</span>
+                <span style="margin-left:100px;">User: {{ org.user.username }}</span>
+            </p>
 
-<h2>Ongoing Events</h2>
-{% if ongoing_events %}
-<ul>
-    {% for event in ongoing_events %}
-    <li class="text-blue-600">
-        <a href="{% url 'event_detail' username=org.user.username event_id=event.id %}">
-            {{ event.event_name }} — {{ event.start_datetime }} to {{ event.end_datetime }}
-        </a>
-    </li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No ongoing events.</p>
-{% endif %}
+            <div style="position: absolute; left: 0; top: 0; margin-left: -70px; margin-top: 50px">
 
-<h1>-------</h1>
+                {% if request.user != org.user %}
+                    <form action="{% url 'follow_organization' org.user.username %}" method="POST">
+                        {% csrf_token %}
+                        {% if request.user in org.followers.all %}
+                            <button class="bg-gray-300 px-9 py-2 rounded-md capitalize font-bold hover:opacity-80 ease-in duration-200 text-red-600"
+                                    style="font-family: 'Solaris3'; width: fit-content;" type="submit">
+                                Unfollow
+                            </button>
+                        {% else %}
+                            <button class="bg-gray-300 px-9 py-2 rounded-md capitalize font-bold hover:opacity-80 ease-in duration-200 text-red-600"
+                                    style="font-family: 'Solaris3'; width: fit-content;" type="submit">
+                                Follow
+                            </button>
+                        {% endif %}
+                    </form>
+                {% endif %}
 
-<h2>Future Events</h2>
-{% if future_events %}
-<ul>
-    {% for event in future_events %}
-    <li class="text-blue-600">
-        <a href="{% url 'event_detail' username=org.user.username event_id=event.id %}">
-            {{ event.event_name }} — {{ event.start_datetime }} to {{ event.end_datetime }}
-        </a>
-    </li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No upcoming events.</p>
-{% endif %}
+            </div>
 
-<h1>-------</h1>
 
-<h2>Finished Events</h2>
-{% if finished_events %}
-<ul>
-    {% for event in finished_events %}
-    <li class="text-blue-600">
-        <a href="{% url 'event_detail' username=org.user.username event_id=event.id %}">
-            {{ event.event_name }} — {{ event.start_datetime|date:"M d, Y H:i" }} to {{ event.end_datetime|date:"M d, Y H:i" }}
-        </a>
-    </li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No past events.</p>
-{% endif %}
+            <p class = "sub-text" style="text-shadow: 2px 3px 0 #000; color: #f9f5f5ff; font-size: 1.5rem; font-weight: 600; margin: 10px; margin-left: -450px">About: {{ org.about }}</p>
+            
+            {% if request.user == org.user %}
+            <div style="margin-left: -450px; height: 300px; display: flex; flex-direction: column; position: relative; top: 50px;">
+            <a class="bg-gray-300 px-9 py-2 rounded-md capitalize font-bold hover:opacity-80 ease-in duration-200 text-red-600"
+                style= "width: fit-content;"
+                href="{% url 'create_event' %}">
+                    Create Event
+            </a>
+            </div>
+            {% endif %}
+
+            <div style="margin-left: -450px; margin-top: 50px;">
+                
+                    <h2 class="sub-text" style=" text-shadow: 2px 3px 0 #000;
+                        color: #f9f5f5ff; font-size: 1.5rem; font-weight: 600; 
+                        margin: 20px; margin-left: 0px;">
+                        Ongoing Events
+                    </h2>
+                    <div = class ="event-box">
+                    {% if ongoing_events %}
+                    <ul>
+                        {% for event in ongoing_events %}
+                        <li>
+                            <a class="sub2-text" style=" 
+                                text-shadow: 2px 3px 0 #000;
+                                color: #ffffff;
+                                font-size: 1rem;
+                                font-weight: 600;
+                                margin: 0px ; "
+                                href="{% url 'event_detail' username=org.user.username event_id=event.id %}"
+                                onmouseover="this.style.color='red'"
+                                onmouseout="this.style.color='#ffffff'">
+                                {{ event.event_name }} <br>
+                                {{ event.start_datetime }} to {{ event.end_datetime }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="sub-text" style= " text-shadow: 2px 3px 0 #000; 
+                        color: #f9f5f5ff; font-size: 1rem; font-weight: 600; 
+                        margin: 0px;">
+                        No ongoing events
+                    </p>
+                    {% endif %}
+                    </div>
+                
+
+            
+                <h2 class="sub-text" style=" text-shadow: 2px 3px 0 #000;
+                        color: #f9f5f5ff; font-size: 1.5rem; font-weight: 600; 
+                        margin: 20px; margin-left: 0px;">
+                    Future Events
+                </h2>
+                <div class ="event-box">
+                {% if future_events %}
+                <ul>
+                    {% for event in future_events %}
+                    <li>
+                        <a 
+                            class="sub2-text"
+                            style=" 
+                            text-shadow: 2px 3px 0 #000;
+                            color: #ffffff;
+                            font-size: 1rem;
+                            font-weight: 600;
+                            margin: 0px ; "
+                            href="{% url 'event_detail' username=org.user.username event_id=event.id %}"
+                            onmouseover="this.style.color='red'"
+                            onmouseout="this.style.color='#ffffff'"
+                            >{{ event.event_name }} <br>
+                            {{ event.start_datetime }} to {{ event.end_datetime }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="sub-text" style="text-shadow: 2px 3px 0 #000; 
+                    color: #f9f5f5ff; font-size: 1rem; font-weight: 600; 
+                    margin: 10px 0">
+                    No upcoming events.
+                </p>
+                
+                {% endif %}
+                </div>
+
+                    <h2 class="sub-text" style=" text-shadow: 2px 3px 0 #000;
+                        color: #f9f5f5ff; font-size: 1.5rem; font-weight: 600; 
+                        margin: 20px; margin-left: 0px;">Finished Events
+                    </h2>
+                    <div class ="event-box">
+                    {% if finished_events %}
+                    <ul>
+                        {% for event in finished_events %}
+                        <li>
+                            <a  class="sub2-text" style=" 
+                                text-shadow: 2px 3px 0 #000;
+                                color: #ffffff;
+                                font-size: 1rem;
+                                font-weight: 600;
+                                margin: 0px ; "
+                                href="{% url 'event_detail' username=org.user.username event_id=event.id %}"
+                                onmouseover="this.style.color='red'"
+                                onmouseout="this.style.color='#ffffff'">
+                                {{ event.event_name }} <br> 
+                                {{ event.start_datetime|date:"M d, Y H:i" }} to {{ event.end_datetime|date:"M d, Y H:i" }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                        <p class="sub-text" style= "text-shadow: 2px 3px 0 #000; 
+                        color: #f9f5f5ff; font-size: 1rem; font-weight: 600; 
+                        margin: 0px;">No past events.</p>
+                    </div>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+    
+        </div>
+    </div>
+</div>        
+
+
 
 {% endblock %}

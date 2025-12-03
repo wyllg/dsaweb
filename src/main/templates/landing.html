@@ -1,63 +1,77 @@
 {% extends "base.html" %}
 {% block title %}Landing{% endblock %}
 {% block content %}
+<style>
+    body {
+    margin: 0;
+    padding: 0;
+  }
+  .form-container { 
+    width: 300px;
+    marigin-top 0; 
+    margin-left: auto;
+    margin-right: auto;}
 
-<h2>Events From Organizations You Follow</h2>
+  input, textarea, select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: black !important;   /* <-- FIX */
+  }
 
-<form method="GET">
+  button {
+    width: 100%;
+    padding: 10px;
+    background: #e54646ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover { background: #990000; }
+</style>
+<div class="org-chart-container">
+    <h2 class = " heading1-text text-sm leading-6" >Events From Organizations You Follow</h2>
 
-    <!-- Status Filter -->
-    <h4>Status</h4>
-    <label>
-        <input type="radio" name="status" value="all" 
-            {% if status_filter == "all" %}checked{% endif %}>
-        All
-    </label><br>
+    <form method="GET">
 
-    <label>
-        <input type="radio" name="status" value="future"
-            {% if status_filter == "future" %}checked{% endif %}>
-        Future
-    </label><br>
 
-    <label>
-        <input type="radio" name="status" value="ongoing"
-            {% if status_filter == "ongoing" %}checked{% endif %}>
-        Ongoing
-    </label><br>
+        <label class = "heading2-text" >Status</label>
+        <select class = "sub-text" name="status">
+            <option value="all" {% if status_filter == "all" %}selected{% endif %}>All</option>
+            <option value="future" {% if status_filter == "future" %}selected{% endif %}>Future Events</option>
+            <option value="ongoing" {% if status_filter == "ongoing" %}selected{% endif %}>Ongoing Events</option>
+            <option value="finished" {% if status_filter == "finished" %}selected{% endif %}>Finished Events</option>
+        </select>
 
-    <label>
-        <input type="radio" name="status" value="finished"
-            {% if status_filter == "finished" %}checked{% endif %}>
-        Finished
-    </label><br><br>
+        <label class = "heading2-text">Sort by Date:</label>
+        <select class = "sub-text" name="sort">
+            <option value="asc" {% if sort_filter == "asc" %}selected{% endif %}>Ascending</option>
+            <option value="desc" {% if sort_filter == "desc" %}selected{% endif %}>Descending</option>
+        </select>
 
-    <!-- Sort Filter -->
-    <label>Sort by Date:</label>
-    <select name="sort">
-        <option value="asc" {% if sort_filter == "asc" %}selected{% endif %}>Ascending</option>
-        <option value="desc" {% if sort_filter == "desc" %}selected{% endif %}>Descending</option>
-    </select>
+        <br><br>
+        <button class="bg-gray-300 px-9 py-3 rounded-md capitalize font-bold hover:opacity-80 ease-in duration-200 text-red-600" class="border border-blue-500 py-2 px-4 rounded"type="submit">Apply Filters</button>
+    </form>
 
-    <br><br>
-    <button class="border border-blue-500 py-2 px-4 rounded"type="submit">Apply Filters</button>
-</form>
-
-<br>
-<hr>
-
-<h3>Results</h3>
-<ul>
-{% for event in events %}
-    <li class="text-blue-600">
-        <a href="{% url 'event_detail' username=event.organization.user.username event_id=event.id %}">
-            {{ event.event_name }}
-        </a>
-        — {{ event.start_datetime|date:"M d, Y H:i" }}
-    </li>
-{% empty %}
-    <p>No events found.</p>
-{% endfor %}
-</ul>
-
+    <br>
+    <hr>
+    <div class ="event-box">
+        <h3 class = "heading2-text">Results</h3>
+        <ul>
+        {% for event in events %}
+            <li class = "sub-text">
+                <a href="{% url 'event_detail' username=event.organization.user.username event_id=event.id %}">
+                    {{ event.event_name }}
+                </a>
+                — {{ event.start_datetime|date:"M d, Y H:i" }}
+            </li>
+        {% empty %}
+            <p class = "sub-text">No events found.</p>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
 {% endblock %}

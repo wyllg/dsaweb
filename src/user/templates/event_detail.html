@@ -1,20 +1,35 @@
 {% extends "base.html" %}
 {% block title %}Event Detail{% endblock %}
 {% block content %}
+<div class="org-chart-container">
+    <div dir="rtl">
+        <div class="relative size-32 ...">
+            <div class="absolute start-0 top-0 size-16 ...">
+                <div class="flex flex-col ...">
+                {% if request.user == org.user %}
+                <a class="bg-gray-300 px-9 py-2 rounded-md capitalize font-bold hover:opacity-80 ease-in duration-200 text-red-600" type="submit"
+                    href="{% url 'edit_event' username=org.user.username event_id=event.id %}">
+                    Edit
+                </a>
+                
+                <a style="margin-top: 10px;" class="bg-gray-300 px-9 py-2 rounded-md capitalize font-bold hover:opacity-80 ease-in duration-200 text-red-600" type="submit"
+                    href="{% url 'delete_event' username=org.user.username event_id=event.id %}">
+                    Delete
+                </a>
 
-{% if request.user == org.user %}
-    <a href="{% url 'edit_event' username=org.user.username event_id=event.id %}">Edit</a>
-    <a href="{% url 'delete_event' username=org.user.username event_id=event.id %}">Delete</a>
-{% endif %}
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </div> 
 
-<h1>------------</h1>
 
-<h1>{{ event.event_name }}</h1>
-<p>{{ event.start_datetime }} → {{ event.end_datetime }}</p>
-<p>{{ event.location }}</p>
-<p>{{ event.description }}</p>
-{% if event.header_image %}<img src="{{ event.header_image.url }}">{% endif %}
-
+    <h1 class= "heading1-text" >Event Name: <span class="ml-2">{{ event.event_name }}</span></h1>
+    <p class= "heading2-text" >Start:<span class="ml-2">{{ event.start_datetime }}</span><br>End:<span class="ml-2">{{ event.end_datetime }}</span></p>
+    <p class= "heading2-text">Place:<span class="ml-2">{{ event.location }}</span></p>
+    <p class= "heading2-text">Event Description: <span class="ml-2">{{ event.description }}</p>
+    {% if event.header_image %}<img src="{{ event.header_image.url }}">{% endif %}
+</div>
 
 
 {% endblock %}

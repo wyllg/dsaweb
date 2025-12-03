@@ -2,14 +2,38 @@
 {% block title %}Confirm Deletion{% endblock %}
 {% block content %}
 
-<h1>Delete {{ object.event_name }}?</h1>
-<p>Are you sure you want to delete this event?</p>
+<div class="min-h-screen flex flex-col items-center justify-center text-center space-y-7">
 
-<form method="POST">
-    {% csrf_token %}
-    <button type="submit">Yes, Delete</button>
-    <br>
-    <a href="{% url 'event_detail' username=object.organization.user.username event_id=object.id %}">Cancel</a>
-</form>
+
+        <h1 class="heading1-text">
+            Delete {{ object.event_name }}?
+        </h1>
+
+        <p class="heading1-text text-lg">
+            Are you sure you want to delete this event?
+        </p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+
+            <div class="flex items-center justify-center space-x-4 mt-4">
+                <button 
+                    type="submit"
+                    class="bg-gray-300 px-9 py-3 rounded-md capitalize font-bold hover:opacity-80 ease-in duration-200 text-red-600"
+                >
+                    Yes, Delete
+                </button>
+
+                <a 
+                    href="{% url 'event_detail' username=object.organization.user.username event_id=object.id %}"
+                    class="bg-gray-300 px-9 py-3 rounded-md capitalize font-bold hover:opacity-80 ease-in duration-200 text-red-600"
+                >
+                    Cancel
+                </a>
+            </div>
+        </form>
+
+</div>
 
 {% endblock %}

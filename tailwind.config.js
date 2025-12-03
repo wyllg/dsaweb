@@ -18,6 +18,7 @@ module.exports = {
       },
       fontFamily: {
         hubot: ['Hubot Sans', 'sans-serif'],
+        work: ['Work Sans', 'sans-serif'],
       },
     },
   },

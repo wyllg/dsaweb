@@ -2,23 +2,42 @@
 {% block title %}Profile{% endblock %}
 {% block content %}
 
-<h2 class="text-xl">{{ student.first_name }} {{ student.last_name }}</h2>
-<p>SR-Code: {{ student.user.sr_code }}</p>
-<p>Contact: {{ student.contact_number }}</p>
-<p>Followed Organizations:</p>
-<h3>Organizations I Follow</h3>
-<ul class="text-blue-600">
-  {% for org in followed_orgs %}
-    <li>
-      <a class="text-blue-600" href="{% url 'profile_view' org.user.username %}">{{ org.organization_name }}</a>
-    </li>
-  {% empty %}
-    <li>You are not following any organizations yet.</li>
-  {% endfor %}
-</ul>
+<div class="container">
+  <div class="profile-card">
 
-{% if request.user == student.user %}
-  <h1>USER</h1>
-{% endif %}
+      <div class="name-section">
+          <h3 class = "heading2-text" >{{ student.first_name }} {{ student.last_name }}</h3>
+          <p class = "sub1-text">{{ student.user.sr_code }}</p>
+      </div>
+
+      <hr>
+
+      <div class="info-block">
+          <p class="sub-text">FOLLOWED ORGANIZATIONS:</p>
+
+          <ul>
+              {% for org in followed_orgs %}
+              <li class= "sub-text text-black hover:text-red-600 ease-in duration-200 " >
+                  {% if org.image %}
+                  <img src="{{ org.image }}" alt="{{ org.organization_name }} logo">
+                  {% endif %}
+                  <a href="{% url 'profile_view' org.user.username %}">
+                      {{ org.organization_name }}
+                  </a>
+              </li>
+              {% empty %}
+              <li class="sub-text" >You are not following any organizations yet.</li>
+              {% endfor %}
+          </ul>
+      </div>
+
+      {% if request.user == student.user %}
+      <p class="user-label">USER</p>
+      {% endif %}
+
+  </div>
+</div>
+
+
 
 {% endblock %}

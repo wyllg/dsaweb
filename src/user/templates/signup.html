@@ -2,51 +2,90 @@
 {% block title %}Signup{% endblock %}
 {% block content %}
 
-<h2>Student Signup</h2>
-<form method="post">
-  {% csrf_token %}
+<style>
+  .form-container { width: 300px; }
+  input {
+    width: 100%; padding: 8px; margin-bottom: 10px;
+    border: 1px solid #ccc; border-radius: 5px;
+  }
+  button {
+    width: 100%; padding: 10px; background: #4f46e5;
+    color: white; border: none; border-radius: 5px; cursor: pointer;
+  }
+  button:hover { background: #990000; }
+</style>
+<div class="flex justify-between items-start px-20 py- -2">
+  <div class="w-1/2 flex items-center pl-20">
+    <div>
+      <h1 class="title-text" 
+          style= "text-shadow:2px 5px 0 #000;">
+        Spartan Space
+      </h1>
 
-  <div>
-    <label for="{{ form.sr_code.id_for_label }}">SR-Code:</label>
-    {{ form.sr_code }}
-    {% if form.sr_code.errors %}
-      <div class="error">{{ form.sr_code.errors }}</div>
-    {% endif %}
+      <p class="sub-text"
+         style= "text-shadow:2px 1px 0 #000;">
+        "Always There For Your Events Space"
+      </p>
+    </div>
   </div>
+  <div class="form-container">
+  <h2 class="heading2-text" >Student Signup</h2>
+  
+  <form method="post">
+    {% csrf_token %}
 
-  <div>
-    <label for="{{ form.first_name.id_for_label }}">First Name:</label>
-    {{ form.first_name }}
-    {% if form.first_name.errors %}
-      <div class="error">{{ form.first_name.errors }}</div>
-    {% endif %}
+    
+      <label class="sub-text" for="{{ form.sr_code.id_for_label }}">SR-Code:</label>
+      {{ form.sr_code }}
+
+      {% if form.sr_code.errors %}
+        <div class="error">{{ form.sr_code.errors }}</div>
+      {% endif %}
+    
+
+    
+      <label class="sub-text" for="{{ form.first_name.id_for_label }}">First Name:</label>
+      {{ form.first_name }}
+
+      {% if form.first_name.errors %}
+        <div class="error">{{ form.first_name.errors }}</div>
+      {% endif %}
+    
+
+    
+      <label class="sub-text" for="{{ form.last_name.id_for_label }}">Last Name:</label>
+      {{ form.last_name }}
+
+      {% if form.last_name.errors %}
+        <div class="error">{{ form.last_name.errors }}</div>
+      {% endif %}
+    
+
+    
+      <label class="sub-text" for="{{ form.password1.id_for_label }}">Password:</label>
+      {{ form.password1 }}
+
+      <div class="sub-text">
+        {% if form.password1.errors %}
+          <div class="error">{{ form.password1.errors }}</div>
+        {% endif %}
+      </div>
+    
+
+    
+      <label class="sub-text" for="{{ form.password2.id_for_label }}">Confirm Password:</label>
+      {{ form.password2 }}
+
+      <div class="sub-text">
+        {% if form.password2.errors %}
+          <div class="error">{{ form.password2.errors }}</div>
+        {% endif %}
+      </div>
+    
+
+      <button class="bg-gray-300 px-9 py-3 rounded-md capitalize font-bold hover:opacity-80 ease-in duration-200 text-red-600" style="font-family: 'Solaris3'" type="submit">Sign Up</button>
+  </form>
   </div>
-
-  <div>
-    <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
-    {{ form.last_name }}
-    {% if form.last_name.errors %}
-      <div class="error">{{ form.last_name.errors }}</div>
-    {% endif %}
-  </div>
-
-  <div>
-    <label for="{{ form.password1.id_for_label }}">Password:</label>
-    {{ form.password1 }}
-    {% if form.password1.errors %}
-      <div class="error">{{ form.password1.errors }}</div>
-    {% endif %}
-  </div>
-
-  <div>
-    <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
-    {{ form.password2 }}
-    {% if form.password2.errors %}
-      <div class="error">{{ form.password2.errors }}</div>
-    {% endif %}
-  </div>
-
-  <button type="submit">Sign Up</button>
-</form>
+</div>
 
 {% endblock %}

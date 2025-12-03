@@ -1,44 +1,40 @@
-<nav class="bg-slate-950 shadow-md shadow-slate-900">
-    <div class="container mx-auto px-6 py-3 flex justify-between items-center">
-        <a href="/" class="text-slate-300 text-xl font-hubot">
-        spartan_space
-        </a>
-        <ul class="flex space-x-6 font-hubot">
+<nav class="w-full px-6 py-3 flex justify-between items-center shadow-lg shadow-red-700 bg-black">
+  <div>
+    <a href="home">
+      <span class="heading2-text">Spartan</span><span class="heading2-text" style="text-red-600">Space</span>
+    </a>
+  </div>
 
-        <!-- If Logged In -->
-        {% if user.is_authenticated %} 
-            
-            <li><a class="text-slate-300 hover:text-blue-600" href="{% url 'org_tree' %}">Organizations</a></li>
+  <ul class="flex items-center space-x-6">
+    
+    {% if user.is_authenticated %}
+      
+      <li><a class= "sub-text hover:text-red-600 ease-in duration-200" href="{% url 'org_tree' %}">Organizations</a></li>
 
-        <!-- If Organization -->
-        {% if user.is_organization %}
-            <li><a class="text-slate-300 hover:text-blue-600" href="{% url 'profile_view' user.username %}">My Organization</a></li>
+      {% if user.is_organization %}
+        <li><a class="sub-text hover:text-red-600 ease-in duration-200 " href="{% url 'profile_view' user.username %}">My Organization</a></li>
 
-        <!-- If Admin -->
-        {% elif user.is_superuser %}
-            <li><a class="text-slate-300 hover:text-blue-600" href="http://127.0.0.1:8000/admin/">Admin</a></li>
+      {% elif user.is_superuser %}
+        <li><a class="sub-text hover:text-red-600 ease-in duration-200 " href="http://127.0.0.1:8000/admin/">Admin</a></li>
 
-        <!-- If User -->
-        {% else %}
-            <li><a class="text-slate-300 hover:text-blue-600" href="{% url 'landing' %}">Home</a></li>
-            <li><a class="text-slate-300 hover:text-blue-600" href="{% url 'profile_view' user.sr_code %}">My Profile</a></li>
-            
-        {% endif %}
+      {% else %}
+        <li><a class="sub-text hover:text-red-600 ease-in duration-200 " href="{% url 'landing' %}">Home</a></li>
+        <li><a class="sub-text hover:text-red-600 ease-in duration-200 " href="{% url 'profile_view' user.sr_code %}">My Profile</a></li>
+      {% endif %}
 
-        <li>
-            <form action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <button type="submit" class="text-slate-300 hover:text-blue-600">Logout</button>
-            </form>
-        </li>
+      <li>
+        <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="sub-text hover:text-red-600 ease-in duration-200 ">Logout</button>
+        </form>
+      </li>
 
-        {% else %}
+    {% else %}
+      <li><a href="{% url 'signup' %}" class="sub-text hover:text-red-600 ease-in duration-200 ">Signup</a></li>
+      <li><a href="{% url 'login' %}" class="sub-text hover:text-red-600 ease-in duration-200 ">Login</a></li>
 
-        <li><a href="{% url 'signup' %}" class="text-slate-300 hover:text-blue-600">Signup</a></li>
-        <li><a href="{% url 'login' %}" class="text-slate-300 hover:text-blue-600">Login</a></li>
+    {% endif %}
 
-        {% endif %}
-        
-        </ul>
-    </div>
+  </ul>
+
 </nav>

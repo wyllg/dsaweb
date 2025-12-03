@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 {% block title %}Organizations{% endblock %}
 {% block content %}
-<h1 class="text-3xl font-bold mb-6">Organization Hierarchy</h1>
 
-<ul class="ml-2">
-    {% for org in root_orgs %}
-        {% include "org_node.html" with org=org %}
-    {% endfor %}
-</ul>
+<div class="org-chart-container">
+    <h1 align = "center" class="heading1-text">Organization Hierarchy</h1>
+
+    <ul align = "center" class="ml-2">
+        {% for org in root_orgs %}
+            {% include "org_node.html" with org=org %}
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

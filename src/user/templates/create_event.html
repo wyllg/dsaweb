@@ -1,60 +1,86 @@
 {% extends "base.html" %}
 {% block title %}Create Event{% endblock %}
 {% block content %}
-<h2>Create Event</h2>
+<style>
+  .form-container { width: 300px; }
 
-<form method="POST" enctype="multipart/form-data">
-  {% csrf_token %}
+  input, textarea, select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: black !important;   /* <-- FIX */
+  }
 
-  <div class="form-group">
-    <label for="id_event_name">Event Name</label>
-    {{ form.event_name }}
-    {% if form.event_name.errors %}
-      <div class="error">{{ form.event_name.errors }}</div>
-    {% endif %}
-  </div>
+  button {
+    width: 100%;
+    padding: 10px;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover { background: #990000; }
+</style>
 
-  <div class="form-group">
-    <label for="id_start_datetime">Start Date & Time</label>
-    {{ form.start_datetime }}
-    {% if form.start_datetime.errors %}
-      <div class="error">{{ form.start_datetime.errors }}</div>
-    {% endif %}
-  </div>
+<div>
+  <h2 class = "heading2-text">Create Event</h2>
 
-  <div class="form-group">
-    <label for="id_end_datetime">End Date & Time</label>
-    {{ form.end_datetime }}
-    {% if form.end_datetime.errors %}
-      <div class="error">{{ form.end_datetime.errors }}</div>
-    {% endif %}
-  </div>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
 
-  <div class="form-group">
-    <label for="id_location">Location</label>
-    {{ form.location }}
-    {% if form.location.errors %}
-      <div class="error">{{ form.location.errors }}</div>
-    {% endif %}
-  </div>
+    <div class="form-group sub-text">
+      <label for="id_event_name">Event Name</label>
+      {{ form.event_name }}
+      {% if form.event_name.errors %}
+        <div class="error">{{ form.event_name.errors }}</div>
+      {% endif %}
+    </div>
 
-  <div class="form-group">
-    <label for="id_description">Description</label>
-    {{ form.description }}
-    {% if form.description.errors %}
-      <div class="error">{{ form.description.errors }}</div>
-    {% endif %}
-  </div>
+    <div class="form-group sub-text">
+      <label for="id_start_datetime">Start Date & Time</label>
+      {{ form.start_datetime }}
+      {% if form.start_datetime.errors %}
+        <div class="error">{{ form.start_datetime.errors }}</div>
+      {% endif %}
+    </div>
 
-  <div class="form-group">
-    <label for="id_header_image">Header Image</label>
-    {{ form.header_image }}
-    {% if form.header_image.errors %}
-      <div class="error">{{ form.header_image.errors }}</div>
-    {% endif %}
-  </div>
+    <div class="form-group sub-text">
+      <label for="id_end_datetime">End Date & Time</label>
+      {{ form.end_datetime }}
+      {% if form.end_datetime.errors %}
+        <div class="error">{{ form.end_datetime.errors }}</div>
+      {% endif %}
+    </div>
 
-  <button type="submit" class="btn btn-primary">Save Event</button>
-</form>
+    <div class="form-group sub-text">
+      <label for="id_location">Location</label>
+      {{ form.location }}
+      {% if form.location.errors %}
+        <div class="error">{{ form.location.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div class="form-group sub-text">
+      <label for="id_description">Description</label>
+      {{ form.description }}
+      {% if form.description.errors %}
+        <div class="error">{{ form.description.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div class="form-group sub-text">
+      <label for="id_header_image">Header Image</label>
+      {{ form.header_image }}
+      {% if form.header_image.errors %}
+        <div class="error">{{ form.header_image.errors }}</div>
+      {% endif %}
+    </div>
+
+    <button class="bg-gray-300 px-9 py-3 rounded-md capitalize font-bold hover:opacity-80 ease-in duration-200 text-red-600" type="submit" class="btn btn-primary">Save Event</button>
+  </form>
+</div>
 
 {% endblock %}

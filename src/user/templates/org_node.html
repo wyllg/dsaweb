@@ -1,25 +1,24 @@
-<li class="mb-2">
+<li class="org-node-wrapper">
+    <div class="org-node">
 
-    <!-- Organization link -->
-    <div class="flex items-start gap-2">
-        <!-- Tree line dot -->
-        <div class="w-3 h-3 rounded-full bg-blue-600 mt-1"></div>
+        <div class="org-node-header">
+            <div class="sub-text"></div>
 
-        <div>
-            <a href="{% url 'profile_view' org.user.username %}"
-               class="text-blue-600 font-semibold">
-                {{ org.organization_name }}
-            </a>
+            <div class="sub-text">
+                <a href="{% url 'profile_view' org.user.username %}"
+                   class="org-title sub-text hover:text-red-600 ease-in duration-200">
+                    {{ org.organization_name }}
+                </a>
+            </div>
         </div>
+
+        {% if org.sub_organizations.exists %}
+            <ul class="org-children sub-text">
+                {% for child in org.sub_organizations.all %}
+                    {% include "org_node.html" with org=child %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+
     </div>
-
-    <!-- Children -->
-    {% if org.sub_organizations.exists %}
-        <ul class="ml-8 mt-2 border-l border-gray-300 pl-4">
-            {% for child in org.sub_organizations.all %}
-                {% include "org_node.html" with org=child %}
-            {% endfor %}
-        </ul>
-    {% endif %}
-
 </li>

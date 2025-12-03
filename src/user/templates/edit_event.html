@@ -1,14 +1,38 @@
 {% extends "base.html" %}
 {% block title %}Edit Event{% endblock %}
 {% block content %}
+<style>
+  .form-container { width: 300px; }
 
-<h2>Edit Event: {{ event.event_name }}</h2>
+  input, textarea, select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: black !important;   /* <-- FIX */
+  }
 
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
+  button {
+    width: 100%;
+    padding: 10px;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover { background: #990000; }
+</style>
+<div class="org-chart-container">
+  <h2 class= "heading1-text" >Edit Event: {{ event.event_name }}</h2>
 
-    <button type="submit">Save Changes</button>
-</form>
+  <form style="margin-top: 10px;" class= "sub-text" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+
+      <button class="bg-gray-300 px-9 py-3 rounded-md capitalize font-bold hover:opacity-80 ease-in duration-200 text-red-600" type="submit">Save Changes</button>
+  </form>
+</div>
 
 {% endblock %}
